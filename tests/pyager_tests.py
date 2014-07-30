@@ -86,11 +86,12 @@ class PyagerTest(unittest.TestCase):
         self.pyager._do_calc.assert_called_with()
 
     @data(
-        (1, 3, 10, (1, 2, 3)),    # beginning
-        (5, 3, 10, (4, 5, 6)),    # middle
-        (10, 3, 10, (8, 9, 10)),  # end
-        (1, 4, 10, (1, 2, 3, 4)), # larger window
-        (5, 4, 10, (3, 4, 5, 6)), # even middle
+        (1, 3, 10, [1, 2, 3]),    # beginning
+        (5, 3, 10, [4, 5, 6]),    # middle
+        (10, 3, 10, [8, 9, 10]),  # end
+        (1, 4, 10, [1, 2, 3, 4]), # larger window
+        (5, 4, 10, [3, 4, 5, 6]), # even middle
+        (1, 4, 100, [1]),         # less pages than window
     )
     @unpack
     def test_pages(self, page, window, page_size, expected_pages):
@@ -100,7 +101,7 @@ class PyagerTest(unittest.TestCase):
 
         pages = self.pyager.pages
 
-        self.assertEqual(window, len(pages))
+        self.assertEqual(len(expected_pages), len(pages))
 
         for p in expected_pages:
             expected = {

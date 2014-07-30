@@ -57,12 +57,17 @@ class Pyager(object):
         else:
             _range = range(low, high)
 
+        count = 1
         for p in _range:
             pages.append({
                 'url': self._build_url(p),
                 'number': p,
                 'current': p == self._page
             })
+
+            count += 1
+            if count > self.total_pages:
+                break
 
         return pages
 
