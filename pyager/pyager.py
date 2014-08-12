@@ -112,7 +112,7 @@ class Pyager(object):
 
     def _do_calc(self):
         if ((getattr(self.pageable,'__getitem__',None) is None) or
-            (getattr(self.pageable,'__iter__',None) is None)):
+            (getattr(self.pageable,'__len__',None) is None)):
             raise TypeError("Pagable of type %s must implement __getitem__ and __len__" % type(self.pageable))
         self.total_items = len(self.pageable)
         self.total_pages = ((self.total_items - 1) // self._page_size) + 1
