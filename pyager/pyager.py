@@ -111,13 +111,13 @@ class Pyager(object):
         return self.url.replace('__page__', str(page))
 
     def _do_calc(self):
-        try:
-            self.total_items = len(self.pageable)
-            self.total_pages = ((self.total_items - 1) // self._page_size) + 1
-            self._page = max(1, self._page) # handle negative page
-            self._page = min(self._page, self.total_pages) # handle page too large
-            first = (self._page - 1) * self._page_size + 1
-            last = min(first + self._page_size - 1, self.total_items)
-            self.items = list(self.pageable[first - 1:last])
-        except TypeError:
+        if ((getattr(self.pageable,'__getitem__',None) is None) or
+            (getattr(self.pageable,'__len__',None) is None)):
             raise TypeError("Pagable of type %s must implement __getitem__ and __len__" % type(self.pageable))
+        self.total_items = len(self.pageable)
+        self.total_pages = ((self.total_items - 1) // self._page_size) + 1
+        self._page = min(self._page, self.total_pages) # handle page too large
+        self._page = max(1, self._page) # handle negative page
+        first = (self._page - 1) * self._page_size + 1
+        last = min(first + self._page_size - 1, self.total_items)
+        self.items = list(self.pageable[first - 1:last])

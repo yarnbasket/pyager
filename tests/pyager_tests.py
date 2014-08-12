@@ -1,3 +1,4 @@
+import collections
 import unittest
 
 from ddt import data, ddt, unpack
@@ -184,6 +185,17 @@ class PyagerTest(unittest.TestCase):
         self.pyager.pageable = not_pageable
 
         self.assertRaises(TypeError, self.pyager._do_calc)
+
+    def test_empty(self):
+        class CrankyList(collections.Sequence):
+            def __len__(self):
+                return 0
+            def __getitem__(self, slice):
+                if slice.start < 0:
+                    raise ValueError('negative initial offset in this slice: '+str(slice))
+                return []
+        self.pyager.pageable = CrankyList()
+        self.pyager._do_calc()
 
 if __name__ == '__main__':
     unittest.main()
