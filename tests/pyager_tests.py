@@ -192,7 +192,7 @@ class PyagerTest(unittest.TestCase):
                 return 0
             def __getitem__(self, slice):
                 if slice.start < 0:
-                    raise Error('negative initial offset')
+                    raise ValueError('negative initial offset in this slice: '+str(slice))
                 return []
         self.pyager.pageable = CrankyList()
         self.pyager._do_calc()
