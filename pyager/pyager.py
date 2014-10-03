@@ -73,12 +73,9 @@ class Pyager(object):
 
     @property
     def first(self):
-        if self._page == 1:
-            return None
-        else:
-            return {
-                'url': self._build_url(1),
-            }
+        return {
+            'url': self._build_url(1),
+        }
 
     @property
     def previous(self):
@@ -100,12 +97,9 @@ class Pyager(object):
 
     @property
     def last(self):
-        if self._page == self.total_pages:
-            return None
-        else:
-            return {
-                'url': self._build_url(self.total_pages),
-            }
+        return {
+            'url': self._build_url(self.total_pages),
+        }
 
     def _build_url(self, page):
         return self.url.replace('__page__', str(page))

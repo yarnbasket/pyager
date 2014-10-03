@@ -113,7 +113,7 @@ class PyagerTest(unittest.TestCase):
             self.assertIn(expected, pages)
 
     @data(
-        (1, None),                      # beginning
+        (1, {'url':'foo.com?page=1'}),  # beginning
         (2, {'url':'foo.com?page=1'}),  # middle
         (10, {'url':'foo.com?page=1'}), # end
     )
@@ -133,9 +133,9 @@ class PyagerTest(unittest.TestCase):
         self.assertEqual(expected, self.pyager.previous)
 
     @data(
-        (1, {'url':'foo.com?page=10'}), # beginning
-        (2, {'url':'foo.com?page=10'}), # middle
-        (10, None),                     # end
+        (1, {'url':'foo.com?page=10'}),  # beginning
+        (2, {'url':'foo.com?page=10'}),  # middle
+        (10, {'url':'foo.com?page=10'}), # end
     )
     @unpack
     def test_last(self, page, expected):
